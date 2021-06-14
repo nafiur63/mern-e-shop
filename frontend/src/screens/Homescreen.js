@@ -4,6 +4,8 @@ import { useState,useEffect } from "react";
 import Product from "../components/Product"
 import {listProducts} from '../actions/productActions'
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 
 const Homescreen = () => {
@@ -11,7 +13,7 @@ const Homescreen = () => {
 
     const productList = useSelector((state)=> state.productList)
 
-    const { loading,error,products} =productList
+    const { loading,error,products} = productList
 
   useEffect(()=>{
             dispatch(listProducts())
@@ -20,7 +22,7 @@ const Homescreen = () => {
     return (
         <>
          <h1>Latest Products</h1>
-         {loading? (<h2>LOADING...</h2>): error ? (<h2>{error.message}</h2>) :(
+         {loading? (<Loader/>): error ? (<Message variant="danger">{error}</Message>) :(
             <Row>
              {products.map((product) =>(
                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
