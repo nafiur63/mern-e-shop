@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { addToCart } from "../actions/cartActions";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
+import { addToCart, removeFromCart} from "../actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -22,7 +23,11 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-      console.log('removed')
+      dispatch(removeFromCart(id))
+  }
+
+  const checkoutHandler  = () => {
+    history.push('/login?redirect=shipping')
   }
 
   return (
@@ -81,7 +86,7 @@ const CartScreen = ({ match, location, history }) => {
                             </h5>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Button type='button' className='btn btn-block' disabled={cartItems.length===0}>
+                            <Button type='button' className='btn btn-block' disabled={cartItems.length===0} onClick={checkoutHandler}>
                                 Proceed to Checkout
                             </Button>
                         </ListGroup.Item>
